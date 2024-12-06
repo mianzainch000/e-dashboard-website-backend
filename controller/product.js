@@ -109,7 +109,7 @@ const deleteProduct = async (req, res) => {
     res.status(500).send({ message: "Product not found." });
   }
 };
-const editProduct = async (req, res) => {
+const GetProductById = async (req, res) => {
   try {
     // Find the product by ID
     const product = await Product.findById(req.params.id);
@@ -131,5 +131,5 @@ module.exports = {
   postProduct,
   getProducts,
   deleteProduct,
-  editProduct,
+  GetProductById,
 };

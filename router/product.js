@@ -4,7 +4,7 @@ const {
   postProduct,
   getProducts,
   deleteProduct,
-  editProduct,
+  GetProductById,
   updateProduct,
 } = require("../controller/product");
 
@@ -14,7 +14,7 @@ router.route("/getProducts").get(getProducts);
 
 router.route("/deleteProduct/:id").delete(deleteProduct);
 
-router.route("/editProduct/:id").get(editProduct);
+router.route("/getProductById/:id").get(GetProductById);
 
 // router.route("/updateProduct/:id").put(updateProduct);
 
