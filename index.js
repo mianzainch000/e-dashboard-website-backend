@@ -14,5 +14,8 @@ const product = require("./router/product");
 app.post("/signup", user);
 app.post("/login", user);
 app.post("/postProduct", product);
+app.get("/getProducts", product);
+app.delete("/deleteProduct/:id", product);
+app.get("/editProduct/:id/", product);
 
 app.listen(4000, () => console.log("Server running on port 4000"));

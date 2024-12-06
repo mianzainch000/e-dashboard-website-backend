@@ -10,11 +10,11 @@ const {
 
 router.route("/postProduct").post(postProduct);
 
-// router.route("/getProducts").get(getProducts);
+router.route("/getProducts").get(getProducts);
 
-// router.route("/deleteProduct/:id").delete(deleteProduct);
+router.route("/deleteProduct/:id").delete(deleteProduct);
 
-// router.route("/editProduct/:id").get(editProduct);
+router.route("/editProduct/:id").get(editProduct);
 
 // router.route("/updateProduct/:id").put(updateProduct);
 
