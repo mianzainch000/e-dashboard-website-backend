@@ -47,10 +47,11 @@ const postProduct = async (req, res) => {
     }
 
     // If no file was uploaded, return an error
-    if (!req.files || req.files.length === 0) {
-      console.error("No file received");
-      return res.status(400).send({ message: "No image files provided" });
-    }
+    // Image error
+    // if (!req.files || req.files.length === 0) {
+    //   console.error("No file received");
+    //   return res.status(400).send({ message: "No image files provided" });
+    // }
 
     const { name, price, description } = req.body;
     const images = req.files.map((file) => file.filename); // Array of image filenames
@@ -127,9 +128,66 @@ const GetProductById = async (req, res) => {
   }
 };
 
+const updateProduct = async (req, res) => {
+  upload(req, res, async function (err) {
+    if (err instanceof multer.MulterError) {
+      // A Multer error occurred when uploading.
+      console.error("Multer Error:", err);
+      return res.status(500).send({ message: "Multer error: " + err.message });
+    } else if (err) {
+      // An unknown error occurred when uploading.
+      console.error("Upload Error:", err);
+      return res.status(500).send({ message: "Upload error: " + err.message });
+    }
+
+    const { name, price, description } = req.body;
+
+    try {
+      // Find the product by ID
+      const productId = req.params.id;
+
+      // Retrieve the existing product
+      const existingProduct = await Product.findById(productId);
+      if (!existingProduct) {
+        return res.status(404).send({ message: "Product not found." });
+      }
+
+      // Process uploaded files, if any
+      let images = existingProduct.image; // Use existing images as a fallback
+      if (req.files && req.files.length > 0) {
+        images = req.files.map((file) => file.filename); // Replace with new images
+      }
+
+      // Update the product fields
+      const updatedProduct = await Product.findByIdAndUpdate(
+        productId,
+        {
+          name: name || existingProduct.name,
+          price: price || existingProduct.price,
+          description: description || existingProduct.description,
+          image: images,
+        },
+        { new: true, runValidators: true } // Return the updated document
+      );
+
+      console.log("Product updated successfully:", updatedProduct);
+      res.status(200).send({
+        message: "Product updated successfully",
+        product: updatedProduct,
+      });
+    } catch (error) {
+      console.error("Error updating product:", error);
+      res
+        .status(500)
+        .send({ message: "Something went wrong, please try again." });
+    }
+  });
+};
+
 module.exports = {
   postProduct,
   getProducts,
   deleteProduct,
   GetProductById,
+  updateProduct, // Export the updateProduct function
 };

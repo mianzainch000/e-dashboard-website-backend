@@ -16,6 +16,6 @@ router.route("/deleteProduct/:id").delete(deleteProduct);
 
 router.route("/getProductById/:id").get(GetProductById);
 
-// router.route("/updateProduct/:id").put(updateProduct);
+router.route("/updateProduct/:id").put(updateProduct);
 
 module.exports = router;
