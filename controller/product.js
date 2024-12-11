@@ -53,7 +53,7 @@ const postProduct = async (req, res) => {
     //   return res.status(400).send({ message: "No image files provided" });
     // }
 
-    const { name, price, description } = req.body;
+    const { name, price, description, stock } = req.body;
     const images = req.files.map((file) => file.filename); // Array of image filenames
 
     try {
@@ -62,7 +62,7 @@ const postProduct = async (req, res) => {
         name,
         price,
         description,
-
+        stock,
         image: images, // Store image paths in an array
       });
 
@@ -140,7 +140,7 @@ const updateProduct = async (req, res) => {
       return res.status(500).send({ message: "Upload error: " + err.message });
     }
 
-    const { name, price, description } = req.body;
+    const { name, price, description, stock } = req.body;
 
     try {
       // Find the product by ID
@@ -165,6 +165,7 @@ const updateProduct = async (req, res) => {
           name: name || existingProduct.name,
           price: price || existingProduct.price,
           description: description || existingProduct.description,
+          stock: stock || existingProduct.stock,
           image: images,
         },
         { new: true, runValidators: true } // Return the updated document
@@ -189,5 +190,5 @@ module.exports = {
   getProducts,
   deleteProduct,
   GetProductById,
-  updateProduct, // Export the updateProduct function
+  updateProduct,
 };
