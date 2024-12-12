@@ -53,7 +53,7 @@ const Login = async (req, res) => {
     delete userResponse.password;
 
     if (user) {
-      jwt.sign({ user }, JWT_SECRET, { expiresIn: "1h" }, (err, token) => {
+      jwt.sign({ user }, JWT_SECRET, { expiresIn: "2d" }, (err, token) => {
         if (err) {
           res.send({ message: "Something went wrong, please try again." });
         }
