@@ -1,10 +1,8 @@
 const Address = require("../schema/address");
 const UserAddress = async (req, res) => {
-  // Image upload is removed, so we directly handle the data without multer
-  const { name, phoneNumber, city, zipCode } = req.body; // image should be a URL or filename
+  const { name, phoneNumber, city, zipCode } = req.body;
 
   try {
-    // Create a new product without image upload logic
     let newAddress = new Address({
       name,
       phoneNumber,
@@ -12,7 +10,6 @@ const UserAddress = async (req, res) => {
       zipCode,
     });
 
-    // Save product to DB
     let result = await newAddress.save();
     console.log("Address added successfully:", result);
     res

@@ -9,17 +9,17 @@ const storage = multer.diskStorage({
     if (!fs.existsSync(uploadPath)) {
       fs.mkdirSync(uploadPath, { recursive: true });
     }
-    cb(null, uploadPath); // Folder where the images will be saved
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + path.extname(file.originalname)); // Append the extension of the file
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   },
 });
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
+  limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter: (req, file, cb) => {
     const allowedTypes = /jpeg|jpg|png/;
     const mimeType = allowedTypes.test(file.mimetype);
@@ -32,41 +32,30 @@ const upload = multer({
     }
     cb(new Error("Only .jpg, .jpeg, .png formats are allowed"));
   },
-}).array("images", 10000); // Accept multiple images (up to 5 files)
+}).array("images", 10000);
 
 const postProduct = async (req, res) => {
   upload(req, res, async function (err) {
     if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
       console.error("Multer Error:", err);
       return res.status(500).send({ message: "Multer error: " + err.message });
     } else if (err) {
-      // An unknown error occurred when uploading.
       console.error("Upload Error:", err);
       return res.status(500).send({ message: "Upload error: " + err.message });
     }
 
-    // If no file was uploaded, return an error
-    // Image error
-    // if (!req.files || req.files.length === 0) {
-    //   console.error("No file received");
-    //   return res.status(400).send({ message: "No image files provided" });
-    // }
-
     const { name, price, description, stock } = req.body;
-    const images = req.files.map((file) => file.filename); // Array of image filenames
+    const images = req.files.map((file) => file.filename);
 
     try {
-      // Create a new product
       let newProduct = new Product({
         name,
         price,
         description,
         stock,
-        image: images, // Store image paths in an array
+        image: images,
       });
 
-      // Save product to DB
       let result = await newProduct.save();
       console.log("Product added successfully:", result);
       res
@@ -98,7 +87,6 @@ const getProducts = async (req, res) => {
 };
 const deleteProduct = async (req, res) => {
   try {
-    // Find the product by ID and delete it
     const deletedProduct = await Product.deleteOne({ _id: req.params.id });
 
     res.status(201).send({
@@ -112,7 +100,6 @@ const deleteProduct = async (req, res) => {
 };
 const GetProductById = async (req, res) => {
   try {
-    // Find the product by ID
     const product = await Product.findById(req.params.id);
 
     if (!product) {
@@ -131,11 +118,9 @@ const GetProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
   upload(req, res, async function (err) {
     if (err instanceof multer.MulterError) {
-      // A Multer error occurred when uploading.
       console.error("Multer Error:", err);
       return res.status(500).send({ message: "Multer error: " + err.message });
     } else if (err) {
-      // An unknown error occurred when uploading.
       console.error("Upload Error:", err);
       return res.status(500).send({ message: "Upload error: " + err.message });
     }
@@ -143,22 +128,18 @@ const updateProduct = async (req, res) => {
     const { name, price, description, stock } = req.body;
 
     try {
-      // Find the product by ID
       const productId = req.params.id;
 
-      // Retrieve the existing product
       const existingProduct = await Product.findById(productId);
       if (!existingProduct) {
         return res.status(404).send({ message: "Product not found." });
       }
 
-      // Process uploaded files, if any
-      let images = existingProduct.image; // Use existing images as a fallback
+      let images = existingProduct.image;
       if (req.files && req.files.length > 0) {
-        images = req.files.map((file) => file.filename); // Replace with new images
+        images = req.files.map((file) => file.filename);
       }
 
-      // Update the product fields
       const updatedProduct = await Product.findByIdAndUpdate(
         productId,
         {
@@ -168,7 +149,7 @@ const updateProduct = async (req, res) => {
           stock: stock || existingProduct.stock,
           image: images,
         },
-        { new: true, runValidators: true } // Return the updated document
+        { new: true, runValidators: true }
       );
 
       console.log("Product updated successfully:", updatedProduct);
