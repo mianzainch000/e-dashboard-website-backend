@@ -8,13 +8,13 @@ app.use("/uploads", express.static("uploads"));
 
 // .........................Api for Signup or login...........................
 
-const user = require("./router/user");
+const user = require("./routes/user");
 app.post("/signup", user);
 app.post("/login", user);
 
 // .........................Api for Product....................................
 
-const product = require("./router/product");
+const product = require("./routes/product");
 app.post("/postProduct", product);
 app.get("/getProducts", product);
 app.delete("/deleteProduct/:id", product);
@@ -22,7 +22,7 @@ app.get("/getProductById/:id/", product);
 app.put("/updateProduct/:id/", product);
 
 // .........................Api for Address.....................................
-const address = require("./router/address");
+const address = require("./routes/address");
 app.post("/address", address);
 
 app.listen(4000, () => console.log("Server running on port 4000"));
