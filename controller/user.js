@@ -47,7 +47,7 @@ const Login = async (req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).send({ message: "Invalid email or password" });
+      return res.status(400).send({ message: "Invalid email or password" });
     }
 
     const userResponse = user.toObject();
@@ -125,9 +125,50 @@ const ForetPassword = async (req, res) => {
     return res.status(500).send({ message: "Internal server error" });
   }
 };
+const ResetPassword = async (req, res) => {
+  try {
+    const { tokenEmail: token } = req.params;
+    const { newPassword } = req.body;
+
+    // Validate inputs
+    if (!token || !newPassword) {
+      return res.status(400).send({ message: "Invalid request" });
+    }
+
+    // Verify JWT token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return res.status(400).send({ message: "Invalid or expired token" });
+    }
+
+    // Extract email from the token
+    const { email } = decoded;
+
+    // Find user by email
+    const user = await newUser.findOne({ email });
+    if (!user) {
+      return res.status(404).send({ message: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update the user's password
+    user.password = hashedPassword;
+    await user.save();
+
+    res.status(201).send({ message: "Password reset successful" });
+  } catch (error) {
+    console.error("Error in ResetPassword:", error.message);
+    res.status(500).send({ message: "Internal server error" });
+  }
+};
 
 module.exports = {
   Signup,
   Login,
   ForetPassword,
+  ResetPassword,
 };
