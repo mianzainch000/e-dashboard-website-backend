@@ -8,7 +8,7 @@ const {
 } = require("../controller/user");
 routes.route("/signup").post(Signup);
 routes.route("/login").post(Login);
-routes.route("/forgetPassword").post(ForetPassword);
+routes.route("/forgotPassword").post(ForetPassword);
 
 routes.route("/resetPassword/:tokenEmail").post(ResetPassword);
 

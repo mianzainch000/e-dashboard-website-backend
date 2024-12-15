@@ -12,7 +12,7 @@ require("dotenv").config();
 const user = require("./routes/user");
 app.post("/signup", user);
 app.post("/login", user);
-app.post("/forgetPassword", user);
+app.post("/forgotPassword", user);
 app.post("/resetPassword/:tokenEmail", user);
 
 // .........................Api for Product....................................

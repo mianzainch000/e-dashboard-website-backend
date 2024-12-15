@@ -119,7 +119,7 @@ const ForetPassword = async (req, res) => {
     // Send the email
     await transporter.sendMail(emailOptions);
 
-    return res.status(200).send({ message: "Email sent successfully" });
+    return res.status(201).send({ message: "Email sent successfully" });
   } catch (error) {
     console.error("Error in ForgetPassword:", error.message);
     return res.status(500).send({ message: "Internal server error" });
