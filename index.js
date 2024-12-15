@@ -5,12 +5,14 @@ const cors = require("cors");
 app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
+require("dotenv").config();
 
 // .........................Api for Signup or login...........................
 
 const user = require("./routes/user");
 app.post("/signup", user);
 app.post("/login", user);
+app.post("/forgetPassword", user);
 
 // .........................Api for Product....................................
 
