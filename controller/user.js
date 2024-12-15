@@ -1,8 +1,9 @@
 const newUser = require("../schema/user");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
 const nodemailer = require("nodemailer");
+const ForgetPasswordEmail = require("../emailTemplate");
+
 const Signup = async (req, res) => {
   try {
     const { email, password, firstName, lastName } = req.body;
@@ -108,12 +109,18 @@ const ForetPassword = async (req, res) => {
     });
 
     // Email options
-    const resetUrl = `http://localhost:3000/resetPassword?token=${tokenEmail}`;
+
+    const html = ForgetPasswordEmail.email(
+      "http://localhost:3000/resetPassword",
+      tokenEmail
+    );
+
     const emailOptions = {
       from: process.env.OWNER_EMAIL,
       to: email,
-      subject: "Password Reset Link",
-      text: `Click the link to reset your password: ${resetUrl}`,
+      subject: "Here's your password reset link!",
+      text: "click on Button to Reset ",
+      html: html,
     };
 
     // Send the email
