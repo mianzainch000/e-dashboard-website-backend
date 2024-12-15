@@ -108,7 +108,7 @@ const ForetPassword = async (req, res) => {
     });
 
     // Email options
-    const resetUrl = `http://localhost:4000/reset-password?token=${tokenEmail}`;
+    const resetUrl = `http://localhost:3000/resetPassword?token=${tokenEmail}`;
     const emailOptions = {
       from: process.env.OWNER_EMAIL,
       to: email,
@@ -125,6 +125,7 @@ const ForetPassword = async (req, res) => {
     return res.status(500).send({ message: "Internal server error" });
   }
 };
+
 const ResetPassword = async (req, res) => {
   try {
     const { tokenEmail: token } = req.params;
