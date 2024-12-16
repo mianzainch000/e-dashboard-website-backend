@@ -18,7 +18,9 @@ module.exports = {
                     We received a request to reset your password. Click the button below to reset it.
                 </div>
                 <a href=${baseurl}?token=${jwt} style="display: block; width: 200px; margin: 0 auto; padding: 10px 0; background-color: #007BFF; color: #ffffff; text-align: center; text-decoration: none; border-radius: 5px;">Reset Password</a>
-               
+                <div style="font-size: 16px; margin-top: 10px; text-align: center;">
+                    This link is valid for 5 minutes.
+                </div>
             </div>
         </div>
     </body>
