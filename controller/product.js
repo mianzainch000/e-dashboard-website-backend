@@ -85,6 +85,7 @@ const getProducts = async (req, res) => {
       .send({ message: "Something went wrong, please try again." });
   }
 };
+
 const deleteProduct = async (req, res) => {
   try {
     const deletedProduct = await Product.deleteOne({ _id: req.params.id });
@@ -98,6 +99,7 @@ const deleteProduct = async (req, res) => {
     res.status(500).send({ message: "Product not found." });
   }
 };
+
 const GetProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);

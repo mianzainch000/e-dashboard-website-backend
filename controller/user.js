@@ -78,17 +78,16 @@ const Login = async (req, res) => {
   }
 };
 
-const ForetPassword = async (req, res) => {
+const ForgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    // Validate email
     if (!email) {
       return res.status(400).send({ message: "Please provide an email" });
     }
 
     // Check if the user exists
-    const checkUser = await newUser.findOne({ email }); // Fixed: Changed 'user' to 'newUser'
+    const checkUser = await newUser.findOne({ email });
     if (!checkUser) {
       return res.status(400).send({ message: "User not found" });
     }
@@ -177,6 +176,6 @@ const ResetPassword = async (req, res) => {
 module.exports = {
   Signup,
   Login,
-  ForetPassword,
+  ForgotPassword,
   ResetPassword,
 };
