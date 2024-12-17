@@ -110,7 +110,7 @@ const ForgotPassword = async (req, res) => {
     // Email options
 
     const html = ForgetPasswordEmail.email(
-      "http://localhost:3000/resetPassword",
+      "http://localhost:3000/auth/resetPassword",
       tokenEmail
     );
 
