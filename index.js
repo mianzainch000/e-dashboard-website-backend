@@ -1,31 +1,20 @@
-const express = require("express");
 require("./db/config");
+const express = require("express");
 const app = express();
-const cors = require("cors");
 app.use(express.json());
+const cors = require("cors");
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
 require("dotenv").config();
 
-// .........................Api for Signup or login...........................
+const userRoutes = require("./routes/user");
+const productRoutes = require("./routes/product");
+const addressRoutes = require("./routes/address");
 
-const user = require("./routes/user");
-app.post("/signup", user);
-app.post("/login", user);
-app.post("/forgotPassword", user);
-app.post("/resetPassword/:tokenEmail", user);
+app.use("/", userRoutes);
 
-// .........................Api for Product....................................
+app.use("/", productRoutes);
 
-const product = require("./routes/product");
-app.post("/postProduct", product);
-app.get("/getProducts", product);
-app.delete("/deleteProduct/:id", product);
-app.get("/getProductById/:id/", product);
-app.put("/updateProduct/:id/", product);
-
-// .........................Api for Address.....................................
-const address = require("./routes/address");
-app.post("/address", address);
+app.use("/", addressRoutes);
 
 app.listen(4000, () => console.log("Server running on port 4000"));

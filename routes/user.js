@@ -6,9 +6,9 @@ const {
   ForgotPassword,
   ResetPassword,
 } = require("../controller/user");
-routes.route("/signup").post(Signup);
-routes.route("/login").post(Login);
-routes.route("/forgotPassword").post(ForgotPassword);
-routes.route("/resetPassword/:tokenEmail").post(ResetPassword);
+routes.post("/signup", Signup);
+routes.post("/login", Login);
+routes.post("/forgotPassword", ForgotPassword);
+routes.post("/resetPassword/:tokenEmail", ResetPassword);
 
 module.exports = routes;

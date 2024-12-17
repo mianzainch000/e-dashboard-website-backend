@@ -1,5 +1,6 @@
 const express = require("express");
 const routes = express.Router();
+
 const {
   postProduct,
   getProducts,
@@ -8,14 +9,14 @@ const {
   updateProduct,
 } = require("../controller/product");
 
-routes.route("/postProduct").post(postProduct);
+routes.post("/postProduct", postProduct);
 
-routes.route("/getProducts").get(getProducts);
+routes.get("/getProducts", getProducts);
 
-routes.route("/deleteProduct/:id").delete(deleteProduct);
+routes.delete("/deleteProduct/:id", deleteProduct);
 
-routes.route("/getProductById/:id").get(GetProductById);
+routes.get("/getProductById/:id", GetProductById);
 
-routes.route("/updateProduct/:id").put(updateProduct);
+routes.put("/updateProduct/:id", updateProduct);
 
 module.exports = routes;
