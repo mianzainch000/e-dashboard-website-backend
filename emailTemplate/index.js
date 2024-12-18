@@ -19,7 +19,11 @@ module.exports = {
                 </div>
                 <a href=${baseurl}?token=${jwt} style="display: block; width: 200px; margin: 0 auto; padding: 10px 0; background-color: #007BFF; color: #ffffff; text-align: center; text-decoration: none; border-radius: 5px;">Reset Password</a>
                 <div style="font-size: 16px; margin-top: 10px; text-align: center;">
-                    This link is valid for 5 minutes.
+                 <div style="font-size: 16px; margin-top: 10px; text-align: center;">
+                This link is valid for 5 minutes and will expire at ${new Date(
+                  Date.now() + 5 * 60 * 1000
+                ).toLocaleTimeString()}.
+             </div>
                 </div>
             </div>
         </div>
